@@ -53,18 +53,24 @@ if [ "$1" = 'postgres' ]; then
 		export POSTGRES_USER POSTGRES_DB
 
 		if [ "$POSTGRES_DB" != 'postgres' ]; then
-      if [ -n "$POSTGRES_ENCODING" ] && [ -n "$POSTGRES_COLLATE" ] && [ -n "$POSTGRES_COLLATE_TYPE" ]; then
-        readonly encoding="'"$POSTGRES_ENCODING"'"
-        readonly collate="'"$POSTGRES_COLLATE"'"
-        readonly collate_type="'"$POSTGRES_COLLATE_TYPE"'"
-        psql --username postgres <<-EOSQL
-           CREATE DATABASE "$POSTGRES_DB" WITH ENCODING $encoding LC_COLLATE $collate LC_CTYPE $collate_type TEMPLATE template0 ;
+			if [ -n "$POSTGRES_DB_CREATE" ]; then
+				psql --username postgres <<-EOSQL
+					${POSTGRES_DB_CREATE} ;
 EOSQL
-      else
-			  psql --username postgres <<-EOSQL
-			     CREATE DATABASE "$POSTGRES_DB" ;
+			else
+	      if [ -n "$POSTGRES_ENCODING" ] && [ -n "$POSTGRES_COLLATE" ] && [ -n "$POSTGRES_COLLATE_TYPE" ]; then
+	        readonly encoding="'"$POSTGRES_ENCODING"'"
+	        readonly collate="'"$POSTGRES_COLLATE"'"
+	        readonly collate_type="'"$POSTGRES_COLLATE_TYPE"'"
+	        psql --username postgres <<-EOSQL
+	           CREATE DATABASE "$POSTGRES_DB" WITH ENCODING $encoding LC_COLLATE $collate LC_CTYPE $collate_type TEMPLATE template0 ;
 EOSQL
-      fi
+	      else
+				  psql --username postgres <<-EOSQL
+				     CREATE DATABASE "$POSTGRES_DB" ;
+EOSQL
+	      fi
+			fi
 			echo
 		fi
 

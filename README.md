@@ -22,3 +22,18 @@ $ docker run --name postgres -d \
 ~~~~
 
 > Starts a database for Atlassian Jira.
+
+# Database Create Statement
+
+You can specify an initial database create statement.
+
+~~~~
+$ docker run --name postgres -d \
+    -e 'POSTGRES_USER=jira' \
+    -e 'POSTGRES_PASSWORD=jellyfish' \
+    -e 'POSTGRES_DB=jiradb' \
+    -e 'POSTGRES_DB_CREATE=CREATE DATABASE userdatabase ' \
+    blacklabelops/postgres
+~~~~
+
+> Starts a database for Atlassian Jira.
