@@ -10,6 +10,8 @@ Takes the same parameters as: [Official Postgres](https://hub.docker.com/_/postg
 
 Added the specification of database encoding and collate for Atlassian applications:
 
+Example:
+
 ~~~~
 $ docker run --name postgres -d \
     -e 'POSTGRES_USER=jira' \

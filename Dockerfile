@@ -1,10 +1,17 @@
 FROM blacklabelops/alpine
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
+# Build time arguments
+# Values: latest or version number (e.g. 9.4.6-r0)
+ARG POSTGRES_VERSION=latest
+
 RUN apk add --update \
       curl \
-      gpgme \
-      postgresql && \
+      gpgme && \
+    if  [ "${POSTGRES_VERSION}" = "latest" ]; \
+      then apk add postgresql ; \
+      else apk add "postgresql=${POSTGRES_VERSION}" ; \
+    fi && \
     # Install gosu
     wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" && \
     chmod +x /usr/local/bin/gosu && \
@@ -22,7 +29,7 @@ ENV PGDATA /var/lib/postgresql/data
 
 COPY docker-entrypoint.sh /
 
-VOLUME /var/lib/postgresql/data
+VOLUME ["/var/lib/postgresql"]
 EXPOSE 5432
 ENTRYPOINT ["/docker-entrypoint.sh"]
 CMD ["postgres"]
