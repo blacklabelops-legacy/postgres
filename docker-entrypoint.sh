@@ -66,9 +66,16 @@ EOSQL
 	           CREATE DATABASE "$POSTGRES_DB" WITH ENCODING $encoding LC_COLLATE $collate LC_CTYPE $collate_type TEMPLATE template0 ;
 EOSQL
 	      else
-				  psql --username postgres <<-EOSQL
+					if [ -n "$POSTGRES_ENCODING" ]; then
+						readonly encoding="'"$POSTGRES_ENCODING"'"
+						psql --username postgres <<-EOSQL
+						 CREATE DATABASE "$POSTGRES_DB" WITH ENCODING $encoding ;
+EOSQL
+					else
+				  	psql --username postgres <<-EOSQL
 				     CREATE DATABASE "$POSTGRES_DB" ;
 EOSQL
+					fi
 	      fi
 			fi
 			echo
