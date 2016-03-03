@@ -13,7 +13,27 @@ dependencies:
 
 test:
   override:
+    #Test1
     - docker run -d --name="postgres" blacklabelops/postgres
     - sleep 20
-    - runstate=$(docker inspect -f {{.State.Running}} postgres) && if [ "$runstate" = "true" ]; then true ; else false ; fi
+    - docker logs postgres
+    - runstate=$(docker inspect -f {{.State.Running}} postgres) && echo $runstate && if [ "$runstate" = "true" ]; then true ; else false ; fi
     - docker stop postgres
+    #Test2
+    - docker run -d --name="postgres2" -e 'POSTGRES_USER=jira' -e 'POSTGRES_PASSWORD=jellyfish' -e 'POSTGRES_DB=jiradb' -e 'POSTGRES_ENCODING=UNICODE' -e 'POSTGRES_COLLATE=C' -e 'POSTGRES_COLLATE_TYPE=C' blacklabelops/postgresblacklabelops/postgres
+    - sleep 20
+    - docker logs postgres2
+    - runstate=$(docker inspect -f {{.State.Running}} postgres2) && echo $runstate && if [ "$runstate" = "true" ]; then true ; else false ; fi
+    - docker stop postgres2
+    #Test3
+    - docker run -d --name="postgres3" -e 'POSTGRES_USER=jira' -e 'POSTGRES_PASSWORD=jellyfish' -e 'POSTGRES_DB=jiradb' -e 'POSTGRES_DB_CREATE=CREATE DATABASE userdatabase' blacklabelops/postgres
+    - sleep 20
+    - docker logs postgres3
+    - runstate=$(docker inspect -f {{.State.Running}} postgres3) && echo $runstate && if [ "$runstate" = "true" ]; then true ; else false ; fi
+    - docker stop postgres3
+    #Test3
+    - docker run -d --name="postgres4" -e 'POSTGRES_USER=jira' -e 'POSTGRES_PASSWORD=jellyfish' -e 'POSTGRES_DB=jiradb' -e 'POSTGRES_ENCODING=UNICODE' blacklabelops/postgres
+    - sleep 20
+    - docker logs postgres4
+    - runstate=$(docker inspect -f {{.State.Running}} postgres4) && echo $runstate && if [ "$runstate" = "true" ]; then true ; else false ; fi
+    - docker stop postgres4
