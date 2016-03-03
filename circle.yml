@@ -1,0 +1,19 @@
+machine:
+  pre:
+    - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+
+  services:
+    - docker
+
+dependencies:
+  override:
+    - docker version
+    - docker info
+    - docker build -t blacklabelops/postgres .
+
+test:
+  override:
+    - docker run -d --name="postgres" blacklabelops/postgres
+    - sleep 20
+    - runstate=$(docker inspect -f {{.State.Running}} postgres) && if [ "$runstate" = "true" ]; then true ; else false ; fi
+    - docker stop postgres
