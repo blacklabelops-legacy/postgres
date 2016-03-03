@@ -37,6 +37,6 @@ test:
     - docker run -d --name="postgres4" -e 'POSTGRES_USER=jira' -e 'POSTGRES_PASSWORD=jellyfish' -e 'POSTGRES_DB=jiradb' -e 'POSTGRES_ENCODING=UNICODE' blacklabelops/postgres
     - sleep 20
     - docker logs postgres4
-    - docker exec postgres3 psql -l jiradb jira
+    - docker exec postgres4 psql -l jiradb jira
     - runstate=$(docker inspect -f {{.State.Running}} postgres4) && echo $runstate && if [ "$runstate" = "true" ]; then true ; else false ; fi
     - docker stop postgres4
