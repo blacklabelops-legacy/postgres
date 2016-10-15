@@ -1,4 +1,4 @@
-FROM blacklabelops/alpine
+FROM blacklabelops/alpine:3.4
 MAINTAINER Steffen Bleul <sbl@blacklabelops.com>
 
 # Build time arguments
@@ -13,7 +13,7 @@ RUN apk add --update \
       else apk add "postgresql=${POSTGRES_VERSION}" ; \
     fi && \
     # Install gosu
-    wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/1.7/gosu-amd64" && \
+    curl -fsSL https://github.com/tianon/gosu/releases/download/1.10/gosu-amd64 -o /usr/local/bin/gosu && \
     chmod +x /usr/local/bin/gosu && \
     # Remove obsolete packages
     apk del \
