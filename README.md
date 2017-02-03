@@ -39,3 +39,7 @@ $ docker run --name postgres -d \
 ~~~~
 
 > Starts a database for Atlassian Jira.
+
+# Support
+
+Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](http://support.blacklabelops.com)
