@@ -2,8 +2,6 @@
 
 Work in Progress
 
-[![blacklabelops/postgres:latest](https://badge.imagelayers.io/blacklabelops/postgres:latest.svg)](https://imagelayers.io/?images=blacklabelops/postgres:latest 'blacklabelops/postgres:latest')
-
 Basically Alpine PostgreSQL with official Postgres entrypoint.
 
 Takes the same parameters as: [Official Postgres](https://hub.docker.com/_/postgres/)
@@ -39,7 +37,3 @@ $ docker run --name postgres -d \
 ~~~~
 
 > Starts a database for Atlassian Jira.
-
-# Support
-
-Leave a message and ask questions on Hipchat: [blacklabelops/hipchat](http://support.blacklabelops.com)
